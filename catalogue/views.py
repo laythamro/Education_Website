@@ -119,8 +119,10 @@ def change_password_form(request, user_id, password_reset_code):
     check = UserResetCode.objects.get(user_id=user_id, random_code=password_reset_code)
     now = timezone.now()
     context['invalid_link'] = True
+
     if now > check.expiration or check.check_link:
         return render(request, 'luma/Demos/Fixed_Layout/reset-password.html', context)
+
     else:
         context = {'user_id': user_id, 'password_reset_code': password_reset_code}
         return render(request, 'luma/Demos/Fixed_Layout/change-password.html', context)
